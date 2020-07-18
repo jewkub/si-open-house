@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <title>SI Open House 2020</title>
+
+    <!-- Primary Meta Tags -->
+    <title>SI Open House 2020</title>
+    <meta name="title" content="SI Open House 2020">
+    <meta name="description" content="มาร่วมเป็นส่วนหนึ่งของเรากันเถอะ 😃">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oph2020.sirirajmedcamp.com/">
+    <meta property="og:title" content="SI Open House 2020">
+    <meta property="og:description" content="มาร่วมเป็นส่วนหนึ่งของเรากันเถอะ 😃">
+    <meta property="og:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png">
+    <meta property="og:image:width" content="1000">
+    <meta property="og:image:height" content="562">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://oph2020.sirirajmedcamp.com/">
+    <meta property="twitter:title" content="SI Open House 2020">
+    <meta property="twitter:description" content="มาร่วมเป็นส่วนหนึ่งของเรากันเถอะ 😃">
+    <meta property="twitter:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.css" integrity="sha256-KpQHAI/AubL4JrO3VYskOgqSm+Z9nzrIqWB1dTOfCK4=" crossorigin="anonymous">
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <br/>
+      <div class="row">
+        <div class="col">
+          <h1 style="text-align: center;">Siriraj Open House</h1>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <a class="btn btn-primary" href="/quiz">quiz</a>
+          <a class="btn btn-primary ml-1" href="https://www.google.com" target="_blank">ประเมิน</a>
+          <a class="btn btn-primary ml-1" href="/logout">ออกจากระบบ</a>
+        </div>
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.js" integrity="sha256-4TFmx5O2sFRsVtG7s4u2Dpl816DVDE9YMoj5Q/05qwg=" crossorigin="anonymous"></script>
+    <script>
+      $(() => {
+        $.get('/flash/error', (data) => {
+          Swal.mixin({
+            icon: 'error'
+          }).queue(data).then(() => {
+            $.get('/flash/success', (data) => {
+              Swal.mixin({
+                icon: 'success'
+              }).queue(data);
+            });
+          });
+        });
+        
+      });
+    </script>
+  </body>
+</html>

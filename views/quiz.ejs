@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+    <title>SI Open House 2020</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.css" integrity="sha256-KpQHAI/AubL4JrO3VYskOgqSm+Z9nzrIqWB1dTOfCK4=" crossorigin="anonymous">
+    <style>
+      ol.list-group {
+        list-style: decimal inside;
+      }
+      ol .list-group-item {
+        display: list-item;
+      } /* https://stackoverflow.com/a/34145218/4468834 */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <br/>
+      <div class="row">
+        <div class="col">
+          <h1 style="text-align: center;">Siriraj Open House</h1>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3 class="card-title" id="quiz-name">Quiz</h3>
+          <br/>
+          <div class="card">
+            <form action="/quiz" method="post">
+              <input id="quiz-name-input" name="name" style="display: none;"/>
+              <div class="card-body">
+                <ol class="list-group list-group-flush" id="quiz-list"></ol>
+                <button class="btn btn-primary mt-3" type="submit">ส่ง</button>
+              </div>
+            </form>
+          </div>
+          <br/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <a class="btn btn-primary" href="/">กลับหน้าหลัก</a>
+        </div>
+      </div>
+      
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.js" integrity="sha256-4TFmx5O2sFRsVtG7s4u2Dpl816DVDE9YMoj5Q/05qwg=" crossorigin="anonymous"></script>
+    <script>
+      let x;
+      $(() => {
+        $.get('/quiz/get', data => {
+          console.log(data);
+          $('#quiz-name').text(data.name);
+          $('#quiz-name-input').val(data.name);
+          data.list.forEach((e, i) => {
+            let q = $(`<li class="list-group-item"><p class="d-inline-block">${e.question}</p></li>`);
+            $('#quiz-list').append(q);
+            if (e.type == 'choice') {
+              let choices = $('<div class="mb-3"></div>');
+              q.append(choices);
+              e.choices.forEach((choice, j) => {
+                console.log(choice);
+                choices.append(
+`<div class="form-check">
+  <input class="form-check-input" type="radio" name="q-${i+1}" id="q-${i+1}-${j+1}" value=${j+1}>
+  <label class="form-check-label" for="q-${i+1}-${j+1}">
+    ${choice}
+  </label>
+</div>`);
+              });
+              x = choices;
+            }
+            else if (e.type == 'text') {
+              q.append($(`<input type="text" class="form-control" id="q-${i+1}" name="q-${i+1}" />`));
+            }
+            else if(e.type == 'textarea'){
+              q.append($(`<textarea rows="${e.rows || 3}" class="form-control" id="q-${i+1}" name="q-${i+1}" />`));
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "quiz1",
+  "list": [
+    {
+      "question": "ข้อแรก ถามถาม",
+      "type": "text"
+    },
+    {
+      "question": "สองถามถามถามถามเปนช้อย",
+      "type": "choice",
+      "choices": [
+        "ช้อยแรก",
+        "ช้อยสอง",
+        "3"
+      ]
+    },
+    {
+      "question": "สามถามยาวๆๆๆๆๆ",
+      "type": "textarea",
+      "rows": 6
+    }
+  ]
+}
