@@ -13,12 +13,34 @@
       <br/>
       <div class="row">
         <div class="col">
-          <h1 style="text-align: center;">Siriraj Open House</h1>
+          <h1 style="text-align: center;">เลือก Quiz</h1>
           <br/>
         </div>
       </div>
+      <form method="post" action="/console/set">
+        <div class="row justify-content-center">
+          <div class="col-auto">
+            <select class="form-select" name="quiz" id="quiz">
+              <option disabled selected value="0">เลือก quiz</option>
+              <option value="md">md</option>
+              <option value="et">et</option>
+              <option value="po">po</option>
+              <option value="tt">tt</option>
+              <option value="closed">closed</option>
+            </select>
+            <br/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">submit</button>
+          </div>
+        </div>
+      </form>
+      <br/>
       <div class="row">
         <div class="col d-flex justify-content-center">
+          <button type="button" class="btn btn-secondary" onclick="window.location='/logout';">logout</button>
         </div>
       </div>
       
@@ -29,12 +51,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.js" integrity="sha256-4TFmx5O2sFRsVtG7s4u2Dpl816DVDE9YMoj5Q/05qwg=" crossorigin="anonymous"></script>
     <script>
       $(async () => {
-        await Swal.fire({
-          icon: 'info',
-          title: 'ส่งคำตอบเรียบร้อยแล้ว',
-          text: 'รอทำชุดต่อไปนะ',
-        })
-        window.location = '/';
+        $.get('/console/current', data => {
+          if (data) $('#quiz').val(data); // https://stackoverflow.com/a/16979926
+        });
       });
     </script>
   </body>

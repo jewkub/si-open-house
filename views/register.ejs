@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ลงทะเบียน</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha512-4E4EgnhRoo0IXwAtqk/RIu5UjW7/mdqVOWBxeh2omq9mem2We4+Xhx+oXmpk0OyHNF3c3XZ+5PXuRopNoeVfHQ==" crossorigin="anonymous" />
   </head>
   <body>
     <div class="container">
@@ -17,19 +17,154 @@
         </div>
         <div class="mb-3">
           <label for="emailInput" class="form-label">อีเมล</label>
-          <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="ใส่อีเมล" name="email" required>
+          <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="ใส่อีเมล" name="email" required />
           <div id="emailHelp" class="form-text">ผู้จัดงานจะส่งสูจิบัตรไปทาง email นี้</div>
         </div>
         <div class="mb-3">
           <label for="telInput" class="form-label">เบอร์โทร</label>
-          <input type="text" class="form-control" id="telInput" aria-describedby="telHelp" placeholder="เบอร์โทร" name="tel" required>
-          <div id="telHelp" class="form-text">เป็นตัวเลขเท่านั้น เช่น 0810110001</div>
+          <input type="number" class="form-control" id="telInput" aria-describedby="telHelp" placeholder="เบอร์โทร" name="tel" required>
+          <div id="telHelp" class="form-text">เป็นตัวเลขเท่านั้น เช่น 0810110001 (สำหรับใช้เป็นรหัสผ่าน)</div>
         </div>
+        <div class="row mb-3">
+          <div class="col-auto">
+            <select class="form-select" aria-label="นักเรียนหรือผู้ปกครอง" name="in1" required>
+              <option disabled selected value="0">นักเรียน / ผู้ปกครอง</option>
+              <option value="นักเรียน">นักเรียน</option>
+              <option value="ผู้ปกครอง">ผู้ปกครอง</option>
+            </select>
+          </div>
+          <div class="col-auto">
+            เป็นผู้ปกครองของ / นักเรียนชั้น
+          </div>
+          <div class="col-auto">
+            <input type="text" class="form-control" id="in2" name="in2" required />
+          </div>
+          
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-auto">
+            จังหวัด
+          </div>
+          <div class="col-auto">
+            <input type="text" class="form-control" id="in3" name="in3" required />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            ท่านรู้จักคณะแพทย์ศาสตร์ศิริราชพยาบาล (ทั้ง 5 สาขา) เพียงใด
+          </div>
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ชื่อคณะ</th>
+                  <th scope="col">ไม่รู้จักเลย</th>
+                  <th scope="col">ไม่ค่อยรู้จัก</th>
+                  <th scope="col">พอรู้จัก</th>
+                  <th scope="col">รู้จัก</th>
+                  <th scope="col">รู้จักดีมาก</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  let name = ['1. MD - สาขาวิชาแพทยศาสตร์', '2. ET - สาขาวิชาเทคโนโลยีการศึกษาแพทยศาสตร์', '3. PO - สาขาวิชากายอุปกรณ์', '4. TT - สาขาวิชาการแพทย์แผนไทยประยุกต์', '5. PN - ประกาศนียบัตรผู้ช่วยพยาบาล'];
+                  for (let j = 0; j < 5; j++) { %>
+                    <tr>
+                      <th scope="row"><%= name[j] %></th>
+                      <%
+                        for (let i = 1; i <= 5; i++) {
+                      %>
+                          <td>
+                            <div class="radio">
+                              <input type="radio" name="in4-<%= j+1 %>" value="<%= i %>" required/>
+                            </div>
+                          </td>
+                      <% } %>
+                    </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="in5" class="form-label">ทำไมถึงสมัครเข้าร่วมกิจกรรมนี้ และคาดหวังอะไรจากกิจกรรม Open House</label>
+          <input type="text" class="form-control" id="in5" name="in5" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="in6" class="form-label">รู้จักงาน open house ได้อย่างไร</label>
+          <input type="text" class="form-control" id="in6" name="in6" required />
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-12">
+            ปัจจัยที่ส่งผลต่อการเลือกสถาบันในการศึกษาวิชาแพทยศาสตร์ และทัศนคติต่อคณะแพทยศาสตร์ศิริราชพยาบาล
+          </div>
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ปัจจัย</th>
+                  <th scope="col">ทำให้ไม่อยากเลือกเลย</th>
+                  <th scope="col">ทำให้ไม่อยากเลือกบ้าง</th>
+                  <th scope="col">ไม่ส่งผลต่อการเลือก</th>
+                  <th scope="col">ทำให้อยากเลือกบ้าง</th>
+                  <th scope="col">ทำให้อยากเลือกมากที่สุด</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  [
+                    'เป็นสถาบันที่มีชื่อเสียง',
+                    'เป็นสถาบันที่ประเมินตนเองแล้วว่าคะแนนสอบสูงถึง',
+                    'เป็นสถาบันที่มีอาจารย์ผู้มีความรู้ความชำนาญ',
+                    'เป็นสถาบันที่หลักสูตรการเรียนเข้มข้น ได้รับการยอมรับจากนานาชาติ',
+                    'เป็นสถาบันที่ใช้การประเมินแบบอิงเกณฑ์',
+                    'เป็นสถาบันที่มีคนไข้หลากหลายมีโรคซับซ้อนโรคหายากจำนวนมาก',
+                    'เป็นสถาบันที่เก่าแก่ มีประเพณีและวัฒนธรรมองค์กรของตนเอง',
+                    'เป็นสถาบันที่ศิษย์เก่ามีผลงานดีเด่น มีชื่อเสียงโด่งดัง',
+                    'เป็นสถาบันที่มีเครือข่ายความสัมพันธ์ขององค์กรกว้างขวาง',
+                    'เป็นสถาบันที่มีเครื่องมือและเทคโนโลยีที่ครบครันและทันสมัย',
+                    'เป็นสถาบันที่มีกฎระเบียบชัดเจน',
+                    'เป็นสถาบันที่อยู่ใจกลางเมือง ใกล้ห้างสรรพสินค้า',
+                    'เป็นสถาบันที่การเดินทางมาสะดวก',
+                    'เป็นสถาบันที่บรรยากาศและสภาพแวดล้อมดี',
+                    'เป็นสถาบันที่มีหอพักให้',
+                    'เป็นสถาบันที่มีทุนการศึกษาให้',
+                    'เป็นสถาบันที่ค่าเล่าเรียนไม่สูง',
+                    'เป็นสถาบันที่สังคมภายในคณะดี อบอุ่น เอาใจใส่กัน',
+                    'เป็นสถาบันที่สนับสนุนกิจกรรมเสริมนอกหลักสูตรมากมาย',
+                    'เป็นสถาบันที่ท่านรู้สึกผูกพันด้วย',
+                    'เป็นสถาบันที่ผู้ปกครองแนะนำให้เลือก',
+                    'เป็นสถาบันที่เพื่อนของท่านส่วนใหญ่เลือก',
+                  ].forEach((e, i) => { %>
+                    <tr>
+                      <th scope="row"><%= e %></th>
+                      <%
+                        for (let j = 1; j <= 5; j++) {
+                      %>
+                          <td>
+                            <div class="radio">
+                              <input type="radio" name="in7-<%= i+1 %>" value="<%= j %>" required/>
+                            </div>
+                          </td>
+                      <% } %>
+                    </tr>
+                  <% }); %>                    
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
         <button type="submit" class="btn btn-primary">ลงทะเบียน</button>
       </form>
+      <br/>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha512-r8o3IMbHMsQlcQv/AbejcCasSXqwlwjnstW1Li1MELnRr/d8Fv/vQsOQh4Xu03E3lFpoefqvloTq4ATpHcEzIg==" crossorigin="anonymous"></script>
   </body>
 </html>

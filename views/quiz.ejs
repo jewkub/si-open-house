@@ -29,7 +29,7 @@
           <br/>
           <div class="card">
             <form action="/quiz" method="post">
-              <input id="quiz-name-input" name="name" style="display: none;"/>
+              <input id="quiz-id" name="id" style="display: none;"/>
               <div class="card-body">
                 <ol class="list-group list-group-flush" id="quiz-list"></ol>
                 <button class="btn btn-primary mt-3" type="submit">ส่ง</button>
@@ -56,7 +56,7 @@
         $.get('/quiz/get', data => {
           console.log(data);
           $('#quiz-name').text(data.name);
-          $('#quiz-name-input').val(data.name);
+          $('#quiz-id').val(data.id);
           data.list.forEach((e, i) => {
             let q = $(`<li class="list-group-item"><p class="d-inline-block">${e.question}</p></li>`);
             $('#quiz-list').append(q);
@@ -67,7 +67,7 @@
                 console.log(choice);
                 choices.append(
 `<div class="form-check">
-  <input class="form-check-input" type="radio" name="q-${i+1}" id="q-${i+1}-${j+1}" value=${j+1}>
+  <input class="form-check-input" type="radio" name="q-${i+1}" id="q-${i+1}-${j+1}" value=${j+1} required/>
   <label class="form-check-label" for="q-${i+1}-${j+1}">
     ${choice}
   </label>
@@ -76,10 +76,10 @@
               x = choices;
             }
             else if (e.type == 'text') {
-              q.append($(`<input type="text" class="form-control" id="q-${i+1}" name="q-${i+1}" />`));
+              q.append($(`<input type="text" class="form-control" id="q-${i+1}" name="q-${i+1}" required/> `));
             }
             else if(e.type == 'textarea'){
-              q.append($(`<textarea rows="${e.rows || 3}" class="form-control" id="q-${i+1}" name="q-${i+1}" />`));
+              q.append($(`<textarea rows="${e.rows || 3}" class="form-control" id="q-${i+1}" name="q-${i+1}" required />`));
             }
           });
         });

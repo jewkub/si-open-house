@@ -37,6 +37,7 @@ app.use('/', require('./routes/auth.js'));
 app.get('/', async (req, res, next) => {
   try {
     if (!req.user) return res.render('index.ejs');
+    if (req.user.email == 'admin') return res.redirect('/console');
     return res.render('home.ejs');
   } catch (e) {
     return next(e);

@@ -14,7 +14,7 @@
     <meta property="og:url" content="https://oph2020.sirirajmedcamp.com/">
     <meta property="og:title" content="SI Open House 2020">
     <meta property="og:description" content="มาร่วมเป็นส่วนหนึ่งของเรากันเถอะ 😃">
-    <meta property="og:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png">
+    <!-- <meta property="og:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png"> -->
     <meta property="og:image:width" content="1000">
     <meta property="og:image:height" content="562">
 
@@ -23,7 +23,7 @@
     <meta property="twitter:url" content="https://oph2020.sirirajmedcamp.com/">
     <meta property="twitter:title" content="SI Open House 2020">
     <meta property="twitter:description" content="มาร่วมเป็นส่วนหนึ่งของเรากันเถอะ 😃">
-    <meta property="twitter:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png">
+    <!-- <meta property="twitter:image" content="https://storage.googleapis.com/si-open-house.appspot.com/mame.png"> -->
 
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
@@ -31,6 +31,9 @@
     <style>
       .centered {
         margin-top: 40vh;
+      }
+      body {
+        background-image: url('https://storage.googleapis.com/si-open-house.appspot.com/bg.jpg');
       }
     </style>
   </head>
@@ -44,11 +47,11 @@
       </div>
       <div class="row">
         <div class="col-6 d-flex justify-content-center centered">
-          <a class="btn btn-primary btn-lg" href="/register" role="button">ลงทะเบียน</a>
-          <button class="btn btn-primary ml-2" id="help">?</button>
+          <a class="btn btn-success btn-lg" href="/register" role="button">ลงทะเบียน</a>
+          <button class="btn btn-success ml-2" id="help">?</button>
         </div>
         <div class="col-6 d-flex justify-content-center centered">
-          <button class="btn btn-primary btn-lg" id="login-button">เข้าสู่ระบบ</button>
+          <button class="btn btn-success btn-lg" id="login-button">เข้าสู่ระบบ</button>
         </div>
       </div>
     </div>
@@ -74,12 +77,15 @@
             input: 'text',
             confirmButtonText: 'Next &rarr;',
             showCancelButton: true,
+            // showLoaderOnConfirm: true,
             progressSteps: ['1', '2']
           }).queue([
             {
               title: 'Email',
             },
-            'เบอร์โทร',
+            {
+              title: 'เบอร์โทร',
+            },
           ]).then((result) => {
             if (result.value) {
               $.post('/login', {

@@ -30,12 +30,12 @@ passport.use(new LocalStrategy({
 }, async function (email, password, done) {
 	try {
 		let user = await User.getUserByEmail(email);
-		if (!user) return done(null, false, {message: 'Unknown email'});
+		if (!user) return done(null, false, {message: 'ไม่พบอีเมลนี้'});
 		let result = await User.comparePassword(password, user.get('password'));
 		// console.log('login!');
 		// console.log(user);
 		if (result) return done(null, user);
-		return done(null, false, {message: 'Wrong password'});
+		return done(null, false, {message: 'รหัสผ่านผิด'});
 	} catch (e) {
 		return done(e, false);
 	}

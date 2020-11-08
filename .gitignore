@@ -139,3 +139,4 @@ yarn-error.log*
 # secret folder and files
 /secret
 env_variables.yaml
+export/token.json
