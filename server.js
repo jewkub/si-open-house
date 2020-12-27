@@ -38,7 +38,8 @@ app.get('/', async (req, res, next) => {
   try {
     if (!req.user) return res.render('index.ejs');
     if (req.user.email == 'admin') return res.redirect('/console');
-    return res.render('home.ejs');
+    // if (req.hostname == 'oph2020.sirirajmedcamp.com') return res.render('wait.ejs');
+    return res.render('home.ejs', { user: req.user });
   } catch (e) {
     return next(e);
   }
@@ -47,6 +48,8 @@ app.get('/', async (req, res, next) => {
 app.use('/', require('./routes/debug.js'));
 app.use('/', require('./routes/register.js'));
 app.use('/', require('./routes/quiz.js'));
+app.use('/', require('./routes/eval.js'));
+app.use('/', require('./routes/cert.js'));
 
 // set normal cache
 app.use(function(req, res, next) {

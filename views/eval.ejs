@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประเมิน - SI Open House 2020</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha2/css/bootstrap.min.css" integrity="sha512-4E4EgnhRoo0IXwAtqk/RIu5UjW7/mdqVOWBxeh2omq9mem2We4+Xhx+oXmpk0OyHNF3c3XZ+5PXuRopNoeVfHQ==" crossorigin="anonymous" />
+    <style>
+      body {
+        background-color:rgba(255, 223, 211, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <br>
+      <h2>แบบประเมิน</h2>
+      <br>
+      <form method="post" action="/eval">
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">ชื่อ นามสกุล</label>
+          <input type="text" class="form-control" id="nameInput" placeholder="ชื่อสกุล" name="name" required>
+        </div>
+        <div class="mb-3">
+          <label for="emailInput" class="form-label">อีเมล</label>
+          <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="ใส่อีเมล" name="email" required />
+        </div>
+        <div class="mb-3">
+          <label for="classInput" class="form-label">ระดับชั้น</label>
+          <input type="text" class="form-control" id="classInput" placeholder="ชั้น" name="class" required />
+        </div>
+        <div class="mb-3">
+          <label for="schoolInput" class="form-label">โรงเรียน</label>
+          <input type="text" class="form-control" id="schoolInput" placeholder="โรงเรียน" name="school" required />
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+          <h5>
+            หลังจบกิจกรรมท่านรู้จักสาขาต่างๆ ของคณะแพทยศาสตร์ศิริราชพยาบาล (ทั้ง 5 สาขา) เพียงใด
+          </h5>
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ชื่อคณะ</th>
+                  <th scope="col">ไม่รู้จักเลย</th>
+                  <th scope="col">ไม่ค่อยรู้จัก</th>
+                  <th scope="col">พอรู้จัก</th>
+                  <th scope="col">รู้จัก</th>
+                  <th scope="col">รู้จักดีมาก</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  let name = ['1. MD - สาขาวิชาแพทยศาสตร์', '2. ET - สาขาวิชาเทคโนโลยีการศึกษาแพทยศาสตร์', '3. PO - สาขาวิชากายอุปกรณ์', '4. TT - สาขาวิชาการแพทย์แผนไทยประยุกต์', '5. PN - ประกาศนียบัตรผู้ช่วยพยาบาล'];
+                  for (let j = 0; j < 5; j++) { %>
+                    <tr>
+                      <th scope="row"><%= name[j] %></th>
+                      <%
+                        for (let i = 1; i <= 5; i++) {
+                      %>
+                          <td>
+                            <div class="radio">
+                              <input type="radio" class="form-check-input" name="in4-<%= j+1 %>" value="<%= i %>" required/>
+                            </div>
+                          </td>
+                      <% } %>
+                    </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row mb-3">
+          <h5>
+            ปัจจัยที่ส่งผลต่อการเลือกสถาบันในการศึกษาวิชาแพทยศาสตร์ และทัศนคติต่อคณะแพทยศาสตร์ศิริราชพยาบาล
+          </h5>
+          <div class="col">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">ปัจจัย</th>
+                  <th scope="col">ทำให้ไม่อยากเลือกเลย</th>
+                  <th scope="col">ทำให้ไม่อยากเลือกบ้าง</th>
+                  <th scope="col">ไม่ส่งผลต่อการเลือก</th>
+                  <th scope="col">ทำให้อยากเลือกบ้าง</th>
+                  <th scope="col">ทำให้อยากเลือกมากที่สุด</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                  [
+                    'เป็นสถาบันที่มีชื่อเสียง',
+                    'เป็นสถาบันที่ประเมินตนเองแล้วว่าคะแนนสอบสูงถึง',
+                    'เป็นสถาบันที่มีอาจารย์ผู้มีความรู้ความชำนาญ',
+                    'เป็นสถาบันที่หลักสูตรการเรียนเข้มข้น ได้รับการยอมรับจากนานาชาติ',
+                    'เป็นสถาบันที่ใช้การประเมินแบบอิงเกณฑ์',
+                    'เป็นสถาบันที่มีคนไข้หลากหลายมีโรคซับซ้อนโรคหายากจำนวนมาก',
+                    'เป็นสถาบันที่เก่าแก่ มีประเพณีและวัฒนธรรมองค์กรของตนเอง',
+                    'เป็นสถาบันที่ศิษย์เก่ามีผลงานดีเด่น มีชื่อเสียงโด่งดัง',
+                    'เป็นสถาบันที่มีเครือข่ายความสัมพันธ์ขององค์กรกว้างขวาง',
+                    'เป็นสถาบันที่มีเครื่องมือและเทคโนโลยีที่ครบครันและทันสมัย',
+                    'เป็นสถาบันที่มีกฎระเบียบชัดเจน',
+                    'เป็นสถาบันที่อยู่ใจกลางเมือง ใกล้ห้างสรรพสินค้า',
+                    'เป็นสถาบันที่การเดินทางมาสะดวก',
+                    'เป็นสถาบันที่บรรยากาศและสภาพแวดล้อมดี',
+                    'เป็นสถาบันที่มีหอพักให้',
+                    'เป็นสถาบันที่มีทุนการศึกษาให้',
+                    'เป็นสถาบันที่ค่าเล่าเรียนไม่สูง',
+                    'เป็นสถาบันที่สังคมภายในคณะดี อบอุ่น เอาใจใส่กัน',
+                    'เป็นสถาบันที่สนับสนุนกิจกรรมเสริมนอกหลักสูตรมากมาย',
+                    'เป็นสถาบันที่ท่านรู้สึกผูกพันด้วย',
+                    'เป็นสถาบันที่ผู้ปกครองแนะนำให้เลือก',
+                    'เป็นสถาบันที่เพื่อนของท่านส่วนใหญ่เลือก',
+                  ].forEach((e, i) => { %>
+                    <tr>
+                      <th scope="row"><%= e %></th>
+                      <%
+                        for (let j = 1; j <= 5; j++) {
+                      %>
+                          <td>
+                            <div class="radio">
+                              <input type="radio" class="form-check-input" name="in7-<%= i+1 %>" value="<%= j %>" required/>
+                            </div>
+                          </td>
+                      <% } %>
+                    </tr>
+                  <% }); %>                    
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr />
+        <h5>ช่วงที่ 1 คลิปแนะนำหลักสูตรแต่ละสาขา</h5>
+        <div class="row mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                [
+                  'ข้อมูลเป็นประโยชน์',
+                  'การนำเสนอน่าสนใจ',
+                  'ระยะเวลาเหมาะสม [1 = น้อยไป, 3 = เหมาะสม, 5 = มากไป]',
+                  'สร้างแรงบันดาลใจ',
+                ].forEach((e, i) => { %>
+                  <tr>
+                    <th scope="row"><%= e %></th>
+                    <%
+                      for (let j = 1; j <= 5; j++) {
+                    %>
+                        <td>
+                          <div class="radio">
+                            <input type="radio" class="form-check-input" name="in8-<%= i+1 %>" value="<%= j %>" required/>
+                          </div>
+                        </td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+                <tr>
+                  <th scope="col">สิ่งที่ประทับใจในการเข้าร่วมในครั้งนี้</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in8-t-1" name="in8-t-1" /></td>
+                </tr>
+                <tr>
+                  <th scope="col">ข้อเสนอแนะ</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in8-t-2" name="in8-t-2" /></td>
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <hr />
+        <h5>ช่วงที่ 2 ช่วงเล่าประสบการณ์</h5>
+        <div class="row mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                [
+                  'ข้อมูลเป็นประโยชน์',
+                  'การนำเสนอน่าสนใจ',
+                  'ระยะเวลาเหมาะสม [1 = น้อยไป, 3 = เหมาะสม, 5 = มากไป]',
+                  'สร้างแรงบันดาลใจ',
+                ].forEach((e, i) => { %>
+                  <tr>
+                    <th scope="row"><%= e %></th>
+                    <%
+                      for (let j = 1; j <= 5; j++) {
+                    %>
+                        <td>
+                          <div class="radio">
+                            <input type="radio" class="form-check-input" name="in9-<%= i+1 %>" value="<%= j %>" required/>
+                          </div>
+                        </td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+                <tr>
+                  <th scope="col">สิ่งที่ประทับใจในการเข้าร่วมในครั้งนี้</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in9-t-1" name="in9-t-1" /></td>
+                </tr>
+                <tr>
+                  <th scope="col">ข้อเสนอแนะ</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in9-t-2" name="in9-t-2" /></td>
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <hr />
+        <h5>ช่วงที่ 3 Q&A</h5>
+        <div class="row mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                [
+                  'ข้อมูลเป็นประโยชน์',
+                  'การนำเสนอน่าสนใจ',
+                  'ระยะเวลาเหมาะสม [1 = น้อยไป, 3 = เหมาะสม, 5 = มากไป]',
+                  'สร้างแรงบันดาลใจ',
+                ].forEach((e, i) => { %>
+                  <tr>
+                    <th scope="row"><%= e %></th>
+                    <%
+                      for (let j = 1; j <= 5; j++) {
+                    %>
+                        <td>
+                          <div class="radio">
+                            <input type="radio" class="form-check-input" name="in10-<%= i+1 %>" value="<%= j %>" required/>
+                          </div>
+                        </td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+                <tr>
+                  <th scope="col">สิ่งที่ประทับใจในการเข้าร่วมในครั้งนี้</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in10-t-1" name="in10-t-1" /></td>
+                </tr>
+                <tr>
+                  <th scope="col">ข้อเสนอแนะ</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in10-t-2" name="in10-t-2" /></td>
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <hr />
+        <h5>ประเมินกิจกรรมในภาพรวม</h5>
+        <div class="row mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%
+                [
+                  'ท่านได้รับข้อมูลเกี่ยวกับสาขาต่าง ๆ เพิ่มมากขึ้น',
+                  'ท่านรู้จักหลักสูตรของสาขาต่าง ๆ เพิ่มมากขึ้น',
+                  'ท่านได้ทราบข้อมูลวิธีการเตรียมตัวสอบเข้าแต่ละสาขาเพิ่มมากขึ้น',
+                  'ท่านมีแรงบันดาลใจในการเข้ามาเรียนสาขาต่าง ๆ มากขึ้น',
+                  'ท่านรู้จักแนวทางอาชีพหลังจากเรียนจบในแต่ละสาขาเพิ่มมากขึ้น',
+                  'ข้อมูลเป็นประโยชน์',
+                  'การนำเสนอน่าสนใจ',
+                  'ระยะเวลาเหมาะสม [1 = น้อยไป, 3 = เหมาะสม, 5 = มากไป]',
+                  'ช่วงเวลาที่จัดกิจกรรมเหมาะสม',
+                  'วันที่จัดกิจกรรมเหมาะสม',
+                  'สร้างแรงบันดาลใจ',
+                ].forEach((e, i) => { %>
+                  <tr>
+                    <th scope="row"><%= e %></th>
+                    <%
+                      for (let j = 1; j <= 5; j++) {
+                    %>
+                        <td>
+                          <div class="radio">
+                            <input type="radio" class="form-check-input" name="in11-<%= i+1 %>" value="<%= j %>" required/>
+                          </div>
+                        </td>
+                    <% } %>
+                  </tr>
+                <% }); %>
+                <tr>
+                  <th scope="col">สิ่งที่ประทับใจในการเข้าร่วมในครั้งนี้</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in11-t-1" name="in11-t-1" /></td>
+                </tr>
+                <tr>
+                  <th scope="col">ข้อเสนอแนะ</th>
+                  <td colspan="5"><input type="text" class="form-control" id="in11-t-2" name="in11-t-2" /></td>
+                </tr>
+            </tbody>
+          </table>
+
+        </div>
+        
+        <button type="submit" class="btn btn-primary">ส่งแบบประเมิน</button>
+      </form>
+      <br/>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-alpha2/js/bootstrap.min.js" integrity="sha512-r8o3IMbHMsQlcQv/AbejcCasSXqwlwjnstW1Li1MELnRr/d8Fv/vQsOQh4Xu03E3lFpoefqvloTq4ATpHcEzIg==" crossorigin="anonymous"></script>
+  </body>
+</html>

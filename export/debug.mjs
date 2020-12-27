@@ -6,19 +6,6 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // https://stackoverflow.com/a/50052194
 
-// const { Storage } = require();
-import { Storage } from '@google-cloud/storage';
-const storage = new Storage({
-  projectId: 'si-open-house',
-});
-const bucket = storage.bucket('si-open-house.appspot.com');
-
-// const Firestore = require('@google-cloud/firestore');
-import { Firestore } from '@google-cloud/firestore';
-const db = new Firestore({
-  projectId: 'si-open-house',
-});
-
 import { degrees, PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
 let pdf = await fs.readFile(path.resolve(__dirname, 'certificate.pdf'));
@@ -41,7 +28,7 @@ const createCert = async (email, name) => {
 
     // Embed the Helvetica font
     const cordia = await pdfDoc.embedFont(fontData, {
-      subset: true // https://github.com/Hopding/pdf-lib/issues/549#issuecomment-668678026
+      subset: false
     });
     // console.log(cordia.encodeText);
     
@@ -75,56 +62,10 @@ const createCert = async (email, name) => {
     //   • Downloaded from the browser
     //   • Rendered in an <iframe>
 
-    // return await fs.writeFile(path.resolve(__dirname, email + '.pdf'), pdfBytes);
-
-    const file = bucket.file('cert/' + email + '.pdf');
-    
-    const stream = file.createWriteStream({
-      metadata: {
-        contentType: 'application/pdf'
-      },
-      resumable: false
-    });
-
-    stream.on('error', (err) => {
-      /* e.cloudStorageError = err;
-      next(err); */
-      console.log(err);
-    });
-
-    stream.on('finish', async () => {
-      // e.cloudStorageObject = gcspath;
-      file.makePublic();
-      (await db.collection('Users').where('email', '=', email).get()).docs[0].ref.update({
-        cert: true
-      });
-      res('ok');
-    });
-
-    stream.end(pdfBytes);
-    
-    return ;
+    return await fs.writeFile(path.resolve(__dirname, email + '.pdf'), pdfBytes);
   });
 }
 
-let pass = await db
-  .collection('Users')
-  .where('cert', '=', false)
-  /* .where('submitted.eval', '=', true) */
-  /* .limit(50) */
-  .get();
-
-console.log(pass.docs.length);
-
-for (let e of pass.docs) {
-  e = e.data();
-  if (e.cert) continue;
-  e.name = e.name
-    .replace(/^\ *(ด\.ญ\.)\ */, 'เด็กหญิง')
-    .replace(/^\ *(ด\.ช\.)\ */, 'เด็กชาย')
-    .replace(/^\ *(น\.ส\.)\ */, 'นางสาว');
-  await createCert(e.email, e.name);
-  console.log(e.email);
-}
+createCert('debug', 'กลิ่น ซึ้ง');
 
 export default createCert;

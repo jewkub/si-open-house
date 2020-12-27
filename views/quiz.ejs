@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
-    <title>SI Open House 2020</title>
+    <title>Quiz - SI Open House 2020</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.css" integrity="sha256-KpQHAI/AubL4JrO3VYskOgqSm+Z9nzrIqWB1dTOfCK4=" crossorigin="anonymous">
     <style>
@@ -12,26 +12,55 @@
       ol .list-group-item {
         display: list-item;
       } /* https://stackoverflow.com/a/34145218/4468834 */
+      
+      body {
+        background-color:rgb(255, 223, 211);
+      }
+      .button {
+        position: absolute;
+        transition: ease 0.1s;
+      }
+      .button:hover {
+        cursor: pointer;
+        opacity: 0.8;
+        filter: brightness(75%);
+      }
+      #mobile {
+        display: none;
+      }
+      @media only screen and (max-width: 768px) {
+        #pc {
+          display: none;
+        }
+        #mobile {
+          display: initial;
+        }
+      }
     </style>
   </head>
   <body>
+    <div style="position: absolute; z-index: -1;" id="pc">
+      <img src="https://storage.googleapis.com/si-open-house.appspot.com/pc/1.svg" alt="background" style="width: 100%;" />
+    </div>
+    <div style="position: absolute; z-index: -1;" id="mobile">
+      <img src="https://storage.googleapis.com/si-open-house.appspot.com/mobile/1.svg" alt="background" style="width: 100%;" />
+    </div>
+
     <div class="container">
       <br/>
       <div class="row">
-        <div class="col">
-          <h1 style="text-align: center;">Siriraj Open House</h1>
-          <br/>
+        <div class="col d-flex justify-content-center">
+          <img src="https://storage.googleapis.com/si-open-house.appspot.com/btn/quiz.svg" alt="quiz" style="width: 20%; min-width: 200px;" />
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <h3 class="card-title" id="quiz-name">Quiz</h3>
           <br/>
-          <div class="card">
+          <div class="card" style="background-color:rgba(255, 255, 255, 0.9);">
             <form action="/quiz" method="post">
               <input id="quiz-id" name="id" style="display: none;"/>
               <div class="card-body">
-                <ol class="list-group list-group-flush" id="quiz-list"></ol>
+                <ol class="list-group list-group-flush" id="quiz-list" ></ol>
                 <button class="btn btn-primary mt-3" type="submit">ส่ง</button>
               </div>
             </form>
@@ -44,7 +73,7 @@
           <a class="btn btn-primary" href="/">กลับหน้าหลัก</a>
         </div>
       </div>
-      
+      <br/>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -52,19 +81,21 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9.17.0/dist/sweetalert2.min.js" integrity="sha256-4TFmx5O2sFRsVtG7s4u2Dpl816DVDE9YMoj5Q/05qwg=" crossorigin="anonymous"></script>
     <script>
       let x;
+      let quiz;
       $(() => {
         $.get('/quiz/get', data => {
-          console.log(data);
+          // console.log(data);
+          current = data.id;
           $('#quiz-name').text(data.name);
           $('#quiz-id').val(data.id);
           data.list.forEach((e, i) => {
-            let q = $(`<li class="list-group-item"><p class="d-inline-block">${e.question}</p></li>`);
+            let q = $(`<li class="list-group-item" style="background-color:rgba(0, 0, 0, 0);"><p class="d-inline-block">${e.question}</p></li>`);
             $('#quiz-list').append(q);
             if (e.type == 'choice') {
               let choices = $('<div class="mb-3"></div>');
               q.append(choices);
               e.choices.forEach((choice, j) => {
-                console.log(choice);
+                // console.log(choice);
                 choices.append(
 `<div class="form-check">
   <input class="form-check-input" type="radio" name="q-${i+1}" id="q-${i+1}-${j+1}" value=${j+1} required/>
@@ -82,7 +113,20 @@
               q.append($(`<textarea rows="${e.rows || 3}" class="form-control" id="q-${i+1}" name="q-${i+1}" required />`));
             }
           });
+
+          $('input').change(function () {
+            console.log(this);
+          });
         });
+
+        setInterval(() => {
+          $.get('/quiz/current', data => {
+            if (data != current) {
+              $('form').trigger('submit');
+            }
+          })
+        }, 4000);
+
       });
     </script>
   </body>

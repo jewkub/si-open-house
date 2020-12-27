@@ -17,7 +17,7 @@ const db = new Firestore({
 
 router.get('/quiz', async (req, res, next) => {
   try {
-    if (req.hostname == 'oph2020.sirirajmedcamp.com') return res.redirect('/');
+    // if (req.hostname == 'oph2020.sirirajmedcamp.com') return res.redirect('/');
 
     let quiz = await chooseQuiz();
     if (quiz == 'closed') return res.redirect('/');
@@ -30,10 +30,6 @@ router.get('/quiz', async (req, res, next) => {
 });
 
 const chooseQuiz = async () => {
-  /* let now = moment();
-  if (+now.format('mm') >= 40) return 'tt';
-  if (+now.format('mm') >= 20) return 'po';
-  return 'et'; */
   let cur = await db.collection('Console').doc('quiz').get();
   return cur.data().current;
 }
@@ -42,6 +38,11 @@ router.get('/quiz/get', async (req, res, next) => {
   let quiz = await chooseQuiz();
   res.header("Content-Type",'application/json');
   res.json(requireUncached(path.resolve(__dirname, '../quiz', quiz + '.json')));
+});
+
+router.get('/quiz/current', async (req, res, next) => {
+  let quiz = await chooseQuiz();
+  res.send(quiz);
 });
 
 router.post('/quiz', async function (req, res, next) {
@@ -55,16 +56,16 @@ router.post('/quiz', async function (req, res, next) {
       answers: req.body,
       quiz: quizid
     });
+    let update = {};
+    update
     await db.collection('Users').doc(req.user._id).update({
-      submitted: {
-        [quizid]: true // https://stackoverflow.com/a/11043034/4468834
-      }
+      [`submitted.${quizid}`]: true
     });
     // TODO: should do as transaction
   } catch (e) {
     return next(e);
   }
-  req.flash('success', 'สำเร็จ');
+  req.flash('success', 'ส่งคำตอบสำเร็จ');
   res.redirect('/');
 });
 
